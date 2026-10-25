@@ -31,8 +31,9 @@
   .free[aria-pressed="true"] { background:var(--mark); color:var(--ink); border-color:var(--mark); }
   .count { color:var(--muted); font-size:14px; margin:4px 0 12px; }
   .list { list-style:none; margin:0; padding:0; border-top:1px solid var(--line); }
-  .row { display:grid; grid-template-columns:44px 1fr; gap:2px 14px; padding:18px 0; border-bottom:1px solid var(--line); }
-  .av { grid-row:span 3; width:44px; height:44px; display:grid; place-items:center; color:#fff; font:700 20px 'Bricolage Grotesque', Georgia, serif; border-radius:12px 12px 12px 4px; }
+  .row { display:grid; grid-template-columns:48px 1fr; gap:2px 14px; padding:18px 0; border-bottom:1px solid var(--line); }
+  .av { grid-row:span 3; width:48px; height:48px; display:grid; place-items:center; background:#fff; border:1px solid var(--line); color:#fff; font:700 20px 'Bricolage Grotesque', Georgia, serif; border-radius:12px 12px 12px 4px; overflow:hidden; }
+  .av img { width:30px; height:30px; object-fit:contain; }
   .nm { font-weight:600; font-size:18px; }
   .tag { margin-left:8px; padding:2px 8px; font-size:12px; font-weight:600; background:var(--mark); color:var(--ink); border-radius:6px; vertical-align:2px; }
   .tag.paid { background:#E8D5D5; }
@@ -69,6 +70,7 @@
 <script>
 // To add a tool, copy one line below and change the details. Keep the comma at the end.
 // A new category name appears as a filter button automatically.
+// The logo is picked up from the tool's link, nothing else to add.
 var tools = [
   { name:"ChatGPT", cat:"Writing", free:true, link:"https://chatgpt.com", desc:"Ask questions, draft essays and get unstuck on homework. The free plan has daily limits." },
   { name:"Gemini", cat:"Writing", free:true, link:"https://gemini.google.com", desc:"Google's assistant for brainstorming, summaries and study help." },
@@ -111,6 +113,16 @@ function drawFilters() {
   document.getElementById("freeBtn").onclick = function () { onlyFree = !onlyFree; drawFilters(); render(); };
 }
 
+function host(link) {
+  try { return new URL(link).hostname; } catch (e) { return ""; }
+}
+
+function letterBadge(av) {
+  av.style.background = av.dataset.color;
+  av.style.border = "0";
+  av.textContent = av.dataset.letter;
+}
+
 function render() {
   var q = search.value.toLowerCase().trim();
   var out = tools.filter(function (t) {
@@ -120,11 +132,17 @@ function render() {
   });
   document.getElementById("count").textContent = out.length + (out.length === 1 ? " tool" : " tools");
   document.getElementById("list").innerHTML = out.length ? out.map(function (t) {
-    return '<li class="row"><div class="av" style="background:' + (palette[t.cat] || "#0B6B5C") + '">' + t.name[0] + '</div>' +
+    return '<li class="row">' +
+      '<div class="av" data-color="' + (palette[t.cat] || "#0B6B5C") + '" data-letter="' + t.name[0] + '">' +
+        '<img src="https://www.google.com/s2/favicons?domain=' + host(t.link) + '&sz=128" alt="" loading="lazy"></div>' +
       '<div><span class="nm">' + t.name + '</span><span class="tag' + (t.free ? '' : ' paid') + '">' + (t.free ? 'Free' : 'Paid') + '</span></div>' +
       '<p class="ds">' + t.desc + '</p>' +
       '<a class="go" href="' + t.link + '" target="_blank" rel="noopener">Open ' + t.name + '</a></li>';
   }).join("") : '<li class="empty">No tools match. Try a different word or clear the filters.</li>';
+  document.querySelectorAll(".av img").forEach(function (img) {
+    img.onerror = function () { letterBadge(img.parentNode); };
+    if (img.complete && img.naturalWidth === 0) { letterBadge(img.parentNode); }
+  });
 }
 
 document.querySelectorAll(".tasks button").forEach(function (b) {
