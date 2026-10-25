@@ -1,96 +1,128 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Tools Directory</title>
+<meta name="description" content="Hand-picked AI tools for studying, writing, design and video. Free options are marked.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  body { font-family: sans-serif; margin: 0; background: #f4f6fb; color: #222; }
-  header { background: #4f46e5; color: white; padding: 20px 16px; text-align: center; }
-  header h1 { margin: 0; font-size: 24px; }
-  header p { margin: 6px 0 0; font-size: 14px; }
-  .box { padding: 14px; max-width: 700px; margin: auto; }
-  input { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-  .btns { margin: 12px 0; display: flex; flex-wrap: wrap; gap: 8px; }
-  .btns button { padding: 8px 14px; border: none; border-radius: 20px; background: #e0e3f5; font-size: 14px; }
-  .btns button.on { background: #4f46e5; color: white; }
-  .card { background: white; padding: 14px; border-radius: 10px; margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-  .card h3 { margin: 0 0 6px; }
-  .card p { margin: 0 0 8px; font-size: 14px; }
-  .tag { font-size: 12px; padding: 3px 8px; border-radius: 10px; background: #dcfce7; color: #166534; }
-  .tag.paid { background: #fee2e2; color: #991b1b; }
-  .card a { display: inline-block; margin-top: 8px; color: #4f46e5; font-weight: bold; text-decoration: none; }
+  :root { --bg:#F2F6F4; --ink:#12211E; --muted:#51635F; --line:#D5E0DC; --brand:#0B6B5C; --mark:#F5C84B; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 Figtree, system-ui, sans-serif; }
+  .wrap { max-width:760px; margin:0 auto; padding:0 18px; }
+  .top { border-bottom:1px solid var(--line); }
+  .top .wrap { padding-top:14px; padding-bottom:14px; }
+  .logo { font:700 19px 'Bricolage Grotesque', Georgia, serif; letter-spacing:-.01em; }
+  .logo i { display:inline-block; width:12px; height:12px; background:var(--mark); border-radius:3px 7px 3px 7px; margin-right:8px; }
+  .hero { padding:44px 0 8px; }
+  h1 { font:700 clamp(34px,8vw,54px)/1.04 'Bricolage Grotesque', Georgia, serif; letter-spacing:-.03em; margin:0 0 14px; max-width:11em; }
+  .lead { color:var(--muted); max-width:34em; margin:0 0 24px; }
+  #search { width:100%; padding:15px 16px; font:inherit; font-size:17px; background:#fff; color:var(--ink); border:2px solid var(--ink); border-radius:12px; }
+  #search:focus-visible, button:focus-visible, a:focus-visible { outline:3px solid var(--mark); outline-offset:2px; }
+  .tasks { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .tasks button { font:inherit; font-size:14px; padding:7px 13px; background:transparent; color:var(--brand); border:1.5px solid var(--brand); border-radius:8px; }
+  .filters { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:30px; padding:18px 0 10px; border-top:1px solid var(--line); }
+  .cat { font:inherit; font-size:14px; padding:7px 14px; background:#fff; color:var(--ink); border:1px solid var(--line); border-radius:20px; }
+  .cat[aria-pressed="true"] { background:var(--ink); color:#fff; border-color:var(--ink); }
+  .free { margin-left:auto; border-color:var(--mark); }
+  .free[aria-pressed="true"] { background:var(--mark); color:var(--ink); border-color:var(--mark); }
+  .count { color:var(--muted); font-size:14px; margin:4px 0 12px; }
+  .list { list-style:none; margin:0; padding:0; border-top:1px solid var(--line); }
+  .row { display:grid; grid-template-columns:44px 1fr; gap:2px 14px; padding:18px 0; border-bottom:1px solid var(--line); }
+  .av { grid-row:span 3; width:44px; height:44px; display:grid; place-items:center; color:#fff; font:700 20px 'Bricolage Grotesque', Georgia, serif; border-radius:12px 12px 12px 4px; }
+  .nm { font-weight:600; font-size:18px; }
+  .tag { margin-left:8px; padding:2px 8px; font-size:12px; font-weight:600; background:var(--mark); color:var(--ink); border-radius:6px; vertical-align:2px; }
+  .tag.paid { background:#E8D5D5; }
+  .ds { margin:0 0 8px; color:var(--muted); max-width:52ch; }
+  .go { justify-self:start; font-weight:600; color:var(--brand); text-decoration:none; border-bottom:2px solid currentColor; }
+  .empty { padding:28px 0; color:var(--muted); }
+  footer { padding:30px 0 50px; color:var(--muted); font-size:14px; }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>AI Tools Directory</h1>
-  <p>Find the right AI tool for your work</p>
-</header>
+<header class="top"><div class="wrap"><span class="logo"><i></i>AI Tools Directory</span></div></header>
 
-<div class="box">
-  <input id="search" placeholder="Search tools or tasks...">
-  <div class="btns" id="cats"></div>
-  <div id="list"></div>
-</div>
+<main class="wrap">
+  <section class="hero">
+    <h1>Find the right AI tool for the job.</h1>
+    <p class="lead">Hand-picked tools for studying, writing, design and video. Free options are marked, so you know before you click.</p>
+    <input id="search" type="search" placeholder="What do you want to do?" aria-label="Search tools">
+    <div class="tasks">
+      <button data-q="essay">Write an essay</button>
+      <button data-q="math">Solve a math problem</button>
+      <button data-q="background">Remove a background</button>
+      <button data-q="reel">Edit a reel</button>
+    </div>
+  </section>
+
+  <div class="filters" id="filters"></div>
+  <p class="count" id="count"></p>
+  <ul class="list" id="list"></ul>
+</main>
+
+<footer class="wrap">Prices and limits change often. Check each tool's own site for current details.</footer>
 
 <script>
-// To add a new tool, copy one line below and change the details
+// To add a tool, copy one line below and change the details. Keep the comma at the end.
 var tools = [
-  { name: "ChatGPT", cat: "Writing", free: true, link: "https://chatgpt.com", desc: "Ask questions, write essays and clear your doubts. The free version has usage limits." },
-  { name: "Gemini", cat: "Writing", free: true, link: "https://gemini.google.com", desc: "Google's AI assistant. Helpful for studying, writing and brainstorming ideas." },
-  { name: "QuillBot", cat: "Writing", free: true, link: "https://quillbot.com", desc: "Rewrites and paraphrases your sentences. The free plan has a word limit." },
-  { name: "Perplexity", cat: "Study", free: true, link: "https://www.perplexity.ai", desc: "A search engine style AI that gives answers along with their sources." },
-  { name: "Photomath", cat: "Study", free: true, link: "https://photomath.com", desc: "Take a photo of a math problem and get a step by step solution." },
-  { name: "NotebookLM", cat: "Study", free: true, link: "https://notebooklm.google.com", desc: "Upload your notes or PDFs and ask questions about them." },
-  { name: "Canva", cat: "Design", free: true, link: "https://www.canva.com", desc: "Make posters, thumbnails and social media posts. The free plan is enough to start." },
-  { name: "Remove.bg", cat: "Design", free: true, link: "https://www.remove.bg", desc: "Remove the background of a photo in one click. Free downloads are low resolution." },
-  { name: "Leonardo AI", cat: "Design", free: true, link: "https://leonardo.ai", desc: "Generate images from text prompts. The free plan gives limited daily credits." },
-  { name: "CapCut", cat: "Video", free: true, link: "https://www.capcut.com", desc: "Edit reels and videos. Works on both phone and computer." }
+  { name:"ChatGPT", cat:"Writing", free:true, link:"https://chatgpt.com", desc:"Ask questions, draft essays and get unstuck on homework. The free plan has daily limits." },
+  { name:"Gemini", cat:"Writing", free:true, link:"https://gemini.google.com", desc:"Google's assistant for brainstorming, summaries and study help." },
+  { name:"QuillBot", cat:"Writing", free:true, link:"https://quillbot.com", desc:"Rewrites and paraphrases sentences. The free plan limits how many words you can use." },
+  { name:"Grammarly", cat:"Writing", free:true, link:"https://www.grammarly.com", desc:"Checks grammar and spelling as you write. The free plan covers the basics." },
+  { name:"DeepL", cat:"Writing", free:true, link:"https://www.deepl.com", desc:"Translates text between languages with natural phrasing. The free version has a character limit." },
+  { name:"Perplexity", cat:"Study", free:true, link:"https://www.perplexity.ai", desc:"Answers questions and shows the sources behind each answer." },
+  { name:"Photomath", cat:"Study", free:true, link:"https://photomath.com", desc:"Scan a math problem with your camera and see the steps to solve it." },
+  { name:"NotebookLM", cat:"Study", free:true, link:"https://notebooklm.google.com", desc:"Upload notes or PDFs, then ask questions and get summaries from them." },
+  { name:"Canva", cat:"Design", free:true, link:"https://www.canva.com", desc:"Make posters, thumbnails and social posts from templates. The free plan is enough to start." },
+  { name:"Remove.bg", cat:"Design", free:true, link:"https://www.remove.bg", desc:"Remove the background from a photo in one tap. Free downloads are low resolution." },
+  { name:"Leonardo AI", cat:"Design", free:true, link:"https://leonardo.ai", desc:"Turn a text description into an image. The free plan gives limited daily credits." },
+  { name:"CapCut", cat:"Video", free:true, link:"https://www.capcut.com", desc:"Edit reels and short videos on phone or computer. Some effects need a paid plan." }
 ];
 
-var currentCat = "All";
-var onlyFree = false;
+var colors = { Writing:"#0B6B5C", Study:"#2F5D9E", Design:"#A4457A", Video:"#A85A12" };
+var cats = ["All", "Writing", "Study", "Design", "Video"];
+var cat = "All", onlyFree = false;
+var search = document.getElementById("search");
 
-function showCats() {
-  var cats = ["All", "Writing", "Study", "Design", "Video", "Free Only"];
-  var html = "";
-  cats.forEach(function(c) {
-    var on = (c === currentCat) || (c === "Free Only" && onlyFree);
-    html += '<button class="' + (on ? "on" : "") + '" onclick="pick(\'' + c + '\')">' + c + '</button>';
+function drawFilters() {
+  var html = cats.map(function (c) {
+    return '<button class="cat" data-cat="' + c + '" aria-pressed="' + (c === cat) + '">' + c + '</button>';
+  }).join("");
+  html += '<button class="cat free" id="freeBtn" aria-pressed="' + onlyFree + '">Free only</button>';
+  document.getElementById("filters").innerHTML = html;
+  document.querySelectorAll("[data-cat]").forEach(function (b) {
+    b.onclick = function () { cat = b.dataset.cat; drawFilters(); render(); };
   });
-  document.getElementById("cats").innerHTML = html;
+  document.getElementById("freeBtn").onclick = function () { onlyFree = !onlyFree; drawFilters(); render(); };
 }
 
-function pick(c) {
-  if (c === "Free Only") { onlyFree = !onlyFree; }
-  else { currentCat = c; }
-  showCats();
-  showTools();
-}
-
-function showTools() {
-  var q = document.getElementById("search").value.toLowerCase();
-  var html = "";
-  tools.forEach(function(t) {
-    var okCat = (currentCat === "All" || t.cat === currentCat);
-    var okFree = (!onlyFree || t.free);
-    var okSearch = (t.name + " " + t.desc).toLowerCase().indexOf(q) !== -1;
-    if (okCat && okFree && okSearch) {
-      html += '<div class="card"><h3>' + t.name + '</h3>' +
-        '<p>' + t.desc + '</p>' +
-        '<span class="tag ' + (t.free ? "" : "paid") + '">' + (t.free ? "Free" : "Paid") + '</span><br>' +
-        '<a href="' + t.link + '" target="_blank">Open tool</a></div>';
-    }
+function render() {
+  var q = search.value.toLowerCase().trim();
+  var out = tools.filter(function (t) {
+    return (cat === "All" || t.cat === cat) &&
+           (!onlyFree || t.free) &&
+           (t.name + " " + t.desc + " " + t.cat).toLowerCase().indexOf(q) !== -1;
   });
-  document.getElementById("list").innerHTML = html || "<p>No tools found.</p>";
+  document.getElementById("count").textContent = out.length + (out.length === 1 ? " tool" : " tools");
+  document.getElementById("list").innerHTML = out.length ? out.map(function (t) {
+    return '<li class="row"><div class="av" style="background:' + colors[t.cat] + '">' + t.name[0] + '</div>' +
+      '<div><span class="nm">' + t.name + '</span><span class="tag' + (t.free ? '' : ' paid') + '">' + (t.free ? 'Free' : 'Paid') + '</span></div>' +
+      '<p class="ds">' + t.desc + '</p>' +
+      '<a class="go" href="' + t.link + '" target="_blank" rel="noopener">Open ' + t.name + '</a></li>';
+  }).join("") : '<li class="empty">No tools match. Try a different word or clear the filters.</li>';
 }
 
-document.getElementById("search").addEventListener("input", showTools);
-showCats();
-showTools();
+document.querySelectorAll(".tasks button").forEach(function (b) {
+  b.onclick = function () { search.value = b.dataset.q; render(); };
+});
+search.addEventListener("input", render);
+drawFilters();
+render();
 </script>
 
-  
-  </body>
+</body>
+  </html>
