@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Tools Directory</title>
+<style>
+  body { font-family: sans-serif; margin: 0; background: #f4f6fb; color: #222; }
+  header { background: #4f46e5; color: white; padding: 20px 16px; text-align: center; }
+  header h1 { margin: 0; font-size: 24px; }
+  header p { margin: 6px 0 0; font-size: 14px; }
+  .box { padding: 14px; max-width: 700px; margin: auto; }
+  input { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+  .btns { margin: 12px 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .btns button { padding: 8px 14px; border: none; border-radius: 20px; background: #e0e3f5; font-size: 14px; }
+  .btns button.on { background: #4f46e5; color: white; }
+  .card { background: white; padding: 14px; border-radius: 10px; margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  .card h3 { margin: 0 0 6px; }
+  .card p { margin: 0 0 8px; font-size: 14px; }
+  .tag { font-size: 12px; padding: 3px 8px; border-radius: 10px; background: #dcfce7; color: #166534; }
+  .tag.paid { background: #fee2e2; color: #991b1b; }
+  .card a { display: inline-block; margin-top: 8px; color: #4f46e5; font-weight: bold; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>AI Tools Directory</h1>
+  <p>Find the right AI tool for your work</p>
+</header>
+
+<div class="box">
+  <input id="search" placeholder="Search tools or tasks...">
+  <div class="btns" id="cats"></div>
+  <div id="list"></div>
+</div>
+
+<script>
+// To add a new tool, copy one line below and change the details
+var tools = [
+  { name: "ChatGPT", cat: "Writing", free: true, link: "https://chatgpt.com", desc: "Ask questions, write essays and clear your doubts. The free version has usage limits." },
+  { name: "Gemini", cat: "Writing", free: true, link: "https://gemini.google.com", desc: "Google's AI assistant. Helpful for studying, writing and brainstorming ideas." },
+  { name: "QuillBot", cat: "Writing", free: true, link: "https://quillbot.com", desc: "Rewrites and paraphrases your sentences. The free plan has a word limit." },
+  { name: "Perplexity", cat: "Study", free: true, link: "https://www.perplexity.ai", desc: "A search engine style AI that gives answers along with their sources." },
+  { name: "Photomath", cat: "Study", free: true, link: "https://photomath.com", desc: "Take a photo of a math problem and get a step by step solution." },
+  { name: "NotebookLM", cat: "Study", free: true, link: "https://notebooklm.google.com", desc: "Upload your notes or PDFs and ask questions about them." },
+  { name: "Canva", cat: "Design", free: true, link: "https://www.canva.com", desc: "Make posters, thumbnails and social media posts. The free plan is enough to start." },
+  { name: "Remove.bg", cat: "Design", free: true, link: "https://www.remove.bg", desc: "Remove the background of a photo in one click. Free downloads are low resolution." },
+  { name: "Leonardo AI", cat: "Design", free: true, link: "https://leonardo.ai", desc: "Generate images from text prompts. The free plan gives limited daily credits." },
+  { name: "CapCut", cat: "Video", free: true, link: "https://www.capcut.com", desc: "Edit reels and videos. Works on both phone and computer." }
+];
+
+var currentCat = "All";
+var onlyFree = false;
+
+function showCats() {
+  var cats = ["All", "Writing", "Study", "Design", "Video", "Free Only"];
+  var html = "";
+  cats.forEach(function(c) {
+    var on = (c === currentCat) || (c === "Free Only" && onlyFree);
+    html += '<button class="' + (on ? "on" : "") + '" onclick="pick(\'' + c + '\')">' + c + '</button>';
+  });
+  document.getElementById("cats").innerHTML = html;
+}
+
+function pick(c) {
+  if (c === "Free Only") { onlyFree = !onlyFree; }
+  else { currentCat = c; }
+  showCats();
+  showTools();
+}
+
+function showTools() {
+  var q = document.getElementById("search").value.toLowerCase();
+  var html = "";
+  tools.forEach(function(t) {
+    var okCat = (currentCat === "All" || t.cat === currentCat);
+    var okFree = (!onlyFree || t.free);
+    var okSearch = (t.name + " " + t.desc).toLowerCase().indexOf(q) !== -1;
+    if (okCat && okFree && okSearch) {
+      html += '<div class="card"><h3>' + t.name + '</h3>' +
+        '<p>' + t.desc + '</p>' +
+        '<span class="tag ' + (t.free ? "" : "paid") + '">' + (t.free ? "Free" : "Paid") + '</span><br>' +
+        '<a href="' + t.link + '" target="_blank">Open tool</a></div>';
+    }
+  });
+  document.getElementById("list").innerHTML = html || "<p>No tools found.</p>";
+}
+
+document.getElementById("search").addEventListener("input", showTools);
+showCats();
+showTools();
+</script>
+
+</body>
+</html>
