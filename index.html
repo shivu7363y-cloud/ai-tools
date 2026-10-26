@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Tools Directory</title>
+<!-- If you added a google-site-verification line earlier, paste it back here, just below the title. -->
+<meta name="description" content="Curated AI tools for studying, writing, design, video, careers and coding. Free options are marked.">
+<script>
+try { var s = localStorage.getItem("theme");
+  document.documentElement.setAttribute("data-theme", s || (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+} catch (e) { document.documentElement.setAttribute("data-theme", "dark"); }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#F6F4EF; --s1:#fff; --line:rgba(22,20,15,.12); --ink:#16140F; --mute:#69665E; --gold:#8A6516; --btn:#16140F; --btntx:#F6F4EF; --g1:rgba(176,133,40,.16); --g2:rgba(70,90,210,.08); }
+  [data-theme="dark"] { --bg:#0A0B10; --s1:#12141C; --line:rgba(255,255,255,.1); --ink:#ECE9E2; --mute:#9096A6; --gold:#D9B96C; --btn:#D9B96C; --btntx:#1A1408; --g1:rgba(217,185,108,.17); --g2:rgba(110,130,255,.14); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 Manrope, system-ui, sans-serif; transition:background .3s, color .3s; }
+  .wrap { max-width:1000px; margin:0 auto; padding:0 20px; }
+  button:focus-visible, a:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
+
+  .top { border-bottom:1px solid var(--line); }
+  .top .wrap { position:relative; display:flex; align-items:center; padding-top:14px; padding-bottom:14px; }
+  .logo { font:400 23px 'Instrument Serif', Georgia, serif; letter-spacing:-.01em; }
+  .logo i { display:inline-block; width:8px; height:8px; margin-right:10px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 4px var(--g1); }
+  .setbtn { margin-left:auto; font:600 13px Manrope, sans-serif; padding:8px 15px; color:var(--ink); background:transparent; border:1px solid var(--line); border-radius:999px; cursor:pointer; transition:border-color .2s; }
+  .setbtn:hover { border-color:var(--gold); }
+  .panel { position:absolute; right:20px; top:58px; z-index:30; min-width:230px; padding:6px 16px; background:var(--s1); border:1px solid var(--line); border-radius:14px; box-shadow:0 20px 40px -14px rgba(0,0,0,.45); }
+  .panel[hidden], .sug[hidden] { display:none; }
+  .panel label { display:flex; align-items:center; gap:10px; padding:10px 0; font-size:15px; cursor:pointer; }
+  .panel input { width:18px; height:18px; accent-color:#B08528; }
+
+  .hero { position:relative; z-index:5; padding:60px 0 34px; background:radial-gradient(620px 300px at 85% -8%, var(--g1), transparent 70%), radial-gradient(520px 280px at 0% 0%, var(--g2), transparent 70%); }
+  .kicker { margin:0 0 14px; color:var(--gold); font:700 12px Manrope, sans-serif; letter-spacing:.18em; text-transform:uppercase; }
+  h1 { margin:0 0 18px; max-width:10.5em; font:400 clamp(46px,12vw,86px)/.98 'Instrument Serif', Georgia, serif; letter-spacing:-.025em; }
+  h1 em { color:var(--gold); }
+  .lead { max-width:33em; margin:0 0 28px; color:var(--mute); font-size:17px; }
+  .sbox { position:relative; }
+  #search { width:100%; padding:17px 20px 17px 52px; font:500 17px Manrope, sans-serif; color:var(--ink); border:1px solid var(--line); border-radius:999px; transition:border-color .2s, box-shadow .2s;
+            background:var(--s1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%238E93A3' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='9' cy='9' r='6'/%3E%3Cpath d='M14 14l4 4'/%3E%3C/svg%3E") no-repeat 19px center; }
+  #search:focus { outline:0; border-color:var(--gold); box-shadow:0 0 0 5px var(--g1); }
+  #search::placeholder { color:var(--mute); }
+  .sug { position:absolute; left:0; right:0; top:calc(100% + 10px); z-index:20; margin:0; padding:6px; list-style:none; max-height:340px; overflow:auto; background:var(--s1); border:1px solid var(--line); border-radius:18px; box-shadow:0 24px 50px -16px rgba(0,0,0,.55); }
+  .sug li { display:flex; align-items:center; gap:12px; padding:10px; border-radius:12px; cursor:pointer; }
+  .sug li:hover, .sug li:active { background:var(--g1); }
+  .sug img { width:30px; height:30px; padding:4px; background:#fff; border:1px solid var(--line); border-radius:9px; object-fit:contain; }
+  .sug b { font-weight:600; }
+  .sug small { margin-left:auto; color:var(--mute); font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+  .sug .none { cursor:default; color:var(--mute); }
+  .sug .none:hover { background:none; }
+  .tasks { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+  .tasks button { font:500 14px Manrope, sans-serif; padding:8px 15px; color:var(--mute); background:transparent; border:1px solid var(--line); border-radius:999px; cursor:pointer; transition:color .2s, border-color .2s, transform .15s; }
+  .tasks button:hover { color:var(--ink); border-color:var(--gold); }
+  .tasks button:active { transform:scale(.96); }
+
+  .filters { display:flex; flex-wrap:wrap; gap:8px; padding:26px 0 6px; }
+  .cat { --c:#B08528; display:inline-flex; align-items:center; gap:8px; font:600 13px Manrope, sans-serif; padding:8px 15px; color:var(--ink); background:transparent; border:1px solid var(--line); border-radius:999px; cursor:pointer; transition:border-color .2s, transform .15s; }
+  .cat i { width:7px; height:7px; border-radius:50%; background:var(--c); }
+  .cat:hover { border-color:var(--c); }
+  .cat:active { transform:scale(.95); }
+  .cat[aria-pressed="true"] { color:var(--btntx); background:var(--btn); border-color:var(--btn); }
+  .cat[aria-pressed="true"] i { background:var(--btntx); }
+  .count { margin:14px 0 16px; color:var(--mute); font:600 12px Manrope, sans-serif; letter-spacing:.14em; text-transform:uppercase; }
+
+  .grid { list-style:none; margin:0; padding:0 0 14px; display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:14px; }
+  .card { display:flex; flex-direction:column; gap:12px; padding:20px; background-color:var(--s1); background-image:linear-gradient(160deg, var(--t), transparent 55%); border:1px solid var(--line); border-radius:20px;
+          animation:rise .55s both; animation-delay:calc(var(--i) * 50ms); transition:transform .25s, border-color .25s, box-shadow .25s; }
+  .card:active { transform:scale(.985); }
+  @media (hover:hover) {
+    .card:hover { transform:translateY(-4px); border-color:var(--c); box-shadow:0 22px 44px -26px var(--c); }
+    .card:hover .go span { transform:translateX(4px); }
+  }
+  .head { display:flex; align-items:center; gap:14px; }
+  .av { flex:none; width:50px; height:50px; display:grid; place-items:center; background:#fff; border:1px solid var(--line); border-radius:14px; color:#fff; font:400 24px 'Instrument Serif', Georgia, serif; overflow:hidden; }
+  .av img { width:30px; height:30px; object-fit:contain; }
+  .nm { font-size:17px; font-weight:700; }
+  .tag { display:inline-block; margin-left:8px; padding:1px 8px; color:var(--gold); border:1px solid var(--gold); border-radius:999px; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; vertical-align:2px; }
+  .tag.paid { color:var(--mute); border-color:var(--line); }
+  .cn { display:flex; align-items:center; gap:7px; margin-top:3px; color:var(--mute); font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+  .cn::before { content:""; width:6px; height:6px; border-radius:50%; background:var(--c); }
+  .ds { flex:1; margin:0; color:var(--mute); }
+  .go { align-self:flex-start; display:inline-flex; align-items:center; gap:8px; padding:9px 17px; color:var(--btntx); background:var(--btn); border-radius:999px; font-size:14px; font-weight:700; text-decoration:none; transition:filter .2s; }
+  .go:hover { filter:brightness(1.1); }
+  .go span { display:inline-block; transition:transform .2s; }
+  .grid.compact { grid-template-columns:1fr; gap:10px; }
+  .compact .card { flex-direction:row; align-items:center; justify-content:space-between; padding:12px 16px; }
+  .compact .head { flex:1; }
+  .compact .ds { display:none; }
+  .compact .go { white-space:nowrap; }
+  .empty { grid-column:1 / -1; padding:28px 0; color:var(--mute); }
+  footer { padding:30px 0 56px; color:var(--mute); font-size:13px; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion:reduce) { * { animation:none !important; transition:none !important; } }
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <span class="logo"><i></i>AI Tools Directory</span>
+  <button class="setbtn" id="setBtn" aria-expanded="false">Settings</button>
+  <div class="panel" id="panel" hidden>
+    <label><input type="checkbox" id="optDark"> Dark mode</label>
+    <label><input type="checkbox" id="optFree"> Show only free tools</label>
+    <label><input type="checkbox" id="optCompact"> Compact list</label>
+  </div>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <p class="kicker">Curated AI tools</p>
+  <h1>Find the <em>right AI tool</em> for the job.</h1>
+  <p class="lead">Hand-picked tools for studying, writing, design, video, careers and coding. Free options are marked, so you know before you click.</p>
+  <div class="sbox">
+    <input id="search" type="search" placeholder="Type a tool name or what you want to do" aria-label="Search tools" autocomplete="off">
+    <ul class="sug" id="sug" hidden></ul>
+  </div>
+  <div class="tasks">
+    <button data-q="essay">Write an essay</button>
+    <button data-q="math">Solve a math problem</button>
+    <button data-q="background">Remove a background</button>
+    <button data-q="resume">Build a resume</button>
+  </div>
+</div></section>
+
+<main class="wrap">
+  <div class="filters" id="filters"></div>
+  <p class="count" id="count"></p>
+  <ul class="grid" id="list"></ul>
+</main>
+
+<footer class="wrap">Prices and limits change often. Check each tool's own site for current details.</footer>
+
+<script src="tools.js"></script>
+<script src="app.js"></script>
+</body>
+  </html>
