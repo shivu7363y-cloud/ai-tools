@@ -5,51 +5,91 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Tools Directory</title>
 <meta name="description" content="Hand-picked AI tools for studying, writing, design, video, careers and coding. Free options are marked.">
+<script>
+try { var s = localStorage.getItem("theme");
+  document.documentElement.setAttribute("data-theme", s || (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+} catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#F2F6F4; --ink:#12211E; --muted:#51635F; --line:#D5E0DC; --brand:#0B6B5C; --mark:#F5C84B; }
+  :root { --bg:#F2F6F4; --card:#fff; --ink:#12211E; --muted:#51635F; --line:#D5E0DC; --mark:#F5C84B; }
+  [data-theme="dark"] { --bg:#0E1715; --card:#16231F; --ink:#EAF3F0; --muted:#9DB2AC; --line:#26362F; }
   * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 Figtree, system-ui, sans-serif; }
-  .wrap { max-width:760px; margin:0 auto; padding:0 18px; }
-  .top { border-bottom:1px solid var(--line); }
-  .top .wrap { padding-top:14px; padding-bottom:14px; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 Figtree, system-ui, sans-serif; transition:background .3s, color .3s; }
+  .wrap { max-width:980px; margin:0 auto; padding:0 18px; }
+  .top .wrap { display:flex; align-items:center; padding-top:14px; padding-bottom:14px; }
   .logo { font:700 19px 'Bricolage Grotesque', Georgia, serif; letter-spacing:-.01em; }
   .logo i { display:inline-block; width:12px; height:12px; background:var(--mark); border-radius:3px 7px 3px 7px; margin-right:8px; }
-  .hero { padding:44px 0 8px; }
-  h1 { font:700 clamp(34px,8vw,54px)/1.04 'Bricolage Grotesque', Georgia, serif; letter-spacing:-.03em; margin:0 0 14px; max-width:11em; }
-  .lead { color:var(--muted); max-width:34em; margin:0 0 24px; }
-  #search { width:100%; padding:15px 16px; font:inherit; font-size:17px; background:#fff; color:var(--ink); border:2px solid var(--ink); border-radius:12px; }
-  #search:focus-visible, button:focus-visible, a:focus-visible { outline:3px solid var(--mark); outline-offset:2px; }
-  .tasks { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
-  .tasks button { font:inherit; font-size:14px; padding:7px 13px; background:transparent; color:var(--brand); border:1.5px solid var(--brand); border-radius:8px; }
-  .filters { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:30px; padding:18px 0 10px; border-top:1px solid var(--line); }
-  .cat { font:inherit; font-size:14px; padding:7px 14px; background:#fff; color:var(--ink); border:1px solid var(--line); border-radius:20px; }
-  .cat[aria-pressed="true"] { background:var(--ink); color:#fff; border-color:var(--ink); }
-  .free { border-color:var(--mark); }
-  .free[aria-pressed="true"] { background:var(--mark); color:var(--ink); border-color:var(--mark); }
-  .count { color:var(--muted); font-size:14px; margin:4px 0 12px; }
-  .list { list-style:none; margin:0; padding:0; border-top:1px solid var(--line); }
-  .row { display:grid; grid-template-columns:48px 1fr; gap:2px 14px; padding:18px 0; border-bottom:1px solid var(--line); }
-  .av { grid-row:span 3; width:48px; height:48px; display:grid; place-items:center; background:#fff; border:1px solid var(--line); color:#fff; font:700 20px 'Bricolage Grotesque', Georgia, serif; border-radius:12px 12px 12px 4px; overflow:hidden; }
-  .av img { width:30px; height:30px; object-fit:contain; }
-  .nm { font-weight:600; font-size:18px; }
-  .tag { margin-left:8px; padding:2px 8px; font-size:12px; font-weight:600; background:var(--mark); color:var(--ink); border-radius:6px; vertical-align:2px; }
+  .theme { margin-left:auto; font:inherit; font-size:14px; padding:7px 14px; background:var(--card); color:var(--ink); border:1.5px solid var(--line); border-radius:20px; cursor:pointer; }
+  button:focus-visible, a:focus-visible, #search:focus-visible { outline:3px solid var(--mark); outline-offset:2px; }
+
+  .hero { position:relative; overflow:hidden; background:#0B3D35; color:#fff; padding:46px 0 42px; }
+  .hero-in { position:relative; z-index:1; }
+  .shape { position:absolute; z-index:0; opacity:.6; animation:float 7s ease-in-out infinite; }
+  .s1 { width:96px; height:96px; border-radius:50%; background:#C4540A; top:-30px; right:7%; }
+  .s2 { --r:18deg; width:62px; height:62px; border-radius:14px; background:#C2358A; bottom:26px; right:24%; animation-delay:-2s; }
+  .s3 { width:46px; height:46px; border-radius:50%; background:#F5C84B; top:42%; right:-12px; animation-delay:-1s; }
+  .s4 { --r:-12deg; width:72px; height:72px; border-radius:20px 20px 4px 20px; background:#2F5D9E; bottom:-20px; left:60%; animation-delay:-4s; }
+  h1 { font:700 clamp(36px,9vw,64px)/1.04 'Bricolage Grotesque', Georgia, serif; letter-spacing:-.03em; margin:0 0 14px; max-width:11em; }
+  h1 mark { background:var(--mark); color:#12211E; padding:0 .14em; border-radius:8px; }
+  .lead { color:#BFD6D0; max-width:34em; margin:0 0 24px; }
+  #search { width:100%; padding:16px 18px; font:inherit; font-size:17px; background:#fff; color:#12211E; border:0; border-radius:14px; box-shadow:0 5px 0 var(--mark); }
+  .tasks { display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+  .tasks button { font:inherit; font-size:14px; padding:7px 13px; color:#fff; background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.35); border-radius:9px; cursor:pointer; transition:background .2s, color .2s, transform .15s; }
+  .tasks button:hover { background:var(--mark); color:#12211E; }
+  .tasks button:active { transform:scale(.95); }
+
+  .filters { display:flex; flex-wrap:wrap; gap:8px; align-items:center; padding:24px 0 8px; }
+  .cat { --c:#0B6B5C; display:inline-flex; align-items:center; gap:7px; font:inherit; font-size:14px; padding:7px 14px; background:var(--card); color:var(--ink); border:1.5px solid var(--line); border-radius:20px; cursor:pointer; transition:transform .15s, border-color .2s; }
+  .cat i { width:9px; height:9px; border-radius:50%; background:var(--c); }
+  .cat:hover { border-color:var(--c); }
+  .cat:active { transform:scale(.94); }
+  .cat[aria-pressed="true"] { background:var(--c); color:#fff; border-color:var(--c); }
+  .cat[aria-pressed="true"] i { background:#fff; }
+  .cat.free { --c:#F5C84B; }
+  .cat.free[aria-pressed="true"] { color:#12211E; }
+  .count { color:var(--muted); font-size:14px; margin:6px 0 14px; }
+
+  .grid { list-style:none; margin:0; padding:0 0 10px; display:grid; grid-template-columns:repeat(auto-fill, minmax(290px, 1fr)); gap:16px; }
+  .card { display:flex; flex-direction:column; gap:10px; padding:18px; border:1.5px solid var(--line); border-radius:18px 18px 18px 6px;
+          background-color:var(--card); background-image:linear-gradient(var(--t), var(--t));
+          animation:rise .5s both; animation-delay:calc(var(--i) * 45ms); transition:transform .2s, box-shadow .2s, border-color .2s; }
+  .card:active { transform:scale(.985); }
+  @media (hover:hover) {
+    .card:hover { transform:translateY(-5px); border-color:var(--c); box-shadow:0 14px 26px -14px var(--c); }
+    .card:hover .av { transform:rotate(-7deg) scale(1.08); }
+  }
+  .head { display:flex; align-items:center; gap:12px; }
+  .av { flex:none; width:52px; height:52px; display:grid; place-items:center; background:#fff; border:2px solid var(--c); border-radius:14px 14px 14px 4px; color:#fff; font:700 22px 'Bricolage Grotesque', Georgia, serif; overflow:hidden; transition:transform .25s; }
+  .av img { width:32px; height:32px; object-fit:contain; }
+  .nm { font-weight:700; font-size:18px; line-height:1.2; }
+  .tag { margin-left:8px; padding:2px 8px; font-size:12px; font-weight:600; background:var(--mark); color:#12211E; border-radius:6px; vertical-align:2px; }
   .tag.paid { background:#E8D5D5; }
-  .ds { margin:0 0 8px; color:var(--muted); max-width:52ch; }
-  .go { justify-self:start; font-weight:600; color:var(--brand); text-decoration:none; border-bottom:2px solid currentColor; }
-  .empty { padding:28px 0; color:var(--muted); }
+  .cn { display:block; font-size:13px; color:var(--muted); }
+  .ds { margin:0; color:var(--muted); flex:1; }
+  .go { align-self:flex-start; background:var(--c); color:#fff; padding:8px 15px; border-radius:9px; font-weight:600; text-decoration:none; transition:filter .2s, transform .2s; }
+  .go:hover { filter:brightness(1.12); transform:translateX(3px); }
+  .empty { grid-column:1 / -1; padding:28px 0; color:var(--muted); }
   footer { padding:30px 0 50px; color:var(--muted); font-size:14px; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+  @keyframes float { 0%,100% { transform:translateY(0) rotate(var(--r,0deg)); } 50% { transform:translateY(-12px) rotate(var(--r,0deg)); } }
+  @media (prefers-reduced-motion:reduce) { * { animation:none !important; transition:none !important; } }
 </style>
 </head>
 <body>
 
-<header class="top"><div class="wrap"><span class="logo"><i></i>AI Tools Directory</span></div></header>
+<header class="top"><div class="wrap">
+  <span class="logo"><i></i>AI Tools Directory</span>
+  <button class="theme" id="themeBtn">Dark mode</button>
+</div></header>
 
-<main class="wrap">
-  <section class="hero">
-    <h1>Find the right AI tool for the job.</h1>
+<section class="hero">
+  <span class="shape s1"></span><span class="shape s2"></span><span class="shape s3"></span><span class="shape s4"></span>
+  <div class="wrap hero-in">
+    <h1>Find the <mark>right AI tool</mark> for the job.</h1>
     <p class="lead">Hand-picked tools for studying, writing, design, video, careers and coding. Free options are marked, so you know before you click.</p>
     <input id="search" type="search" placeholder="What do you want to do?" aria-label="Search tools">
     <div class="tasks">
@@ -58,19 +98,20 @@
       <button data-q="background">Remove a background</button>
       <button data-q="resume">Build a resume</button>
     </div>
-  </section>
+  </div>
+</section>
 
+<main class="wrap">
   <div class="filters" id="filters"></div>
   <p class="count" id="count"></p>
-  <ul class="list" id="list"></ul>
+  <ul class="grid" id="list"></ul>
 </main>
 
 <footer class="wrap">Prices and limits change often. Check each tool's own site for current details.</footer>
 
 <script>
 // To add a tool, copy one line below and change the details. Keep the comma at the end.
-// A new category name appears as a filter button automatically.
-// The logo is picked up from the tool's link, nothing else to add.
+// A new category shows up as a filter button on its own. The logo comes from the tool's link.
 var tools = [
   { name:"ChatGPT", cat:"Writing", free:true, link:"https://chatgpt.com", desc:"Ask questions, draft essays and get unstuck on homework. The free plan has daily limits." },
   { name:"Gemini", cat:"Writing", free:true, link:"https://gemini.google.com", desc:"Google's assistant for brainstorming, summaries and study help." },
@@ -95,17 +136,31 @@ var tools = [
   { name:"Google AI Studio", cat:"Coding", free:true, link:"https://aistudio.google.com", desc:"Try Google's AI models and test prompts you can use in your own projects." }
 ];
 
-var palette = { Writing:"#0B6B5C", Study:"#2F5D9E", Design:"#A4457A", Video:"#A85A12", Productivity:"#4F5D75", Career:"#8A5A00", Coding:"#5B3FA0" };
+var palette = { Writing:"#0B6B5C", Study:"#2F5D9E", Design:"#C2358A", Video:"#C4540A", Productivity:"#0E7C9E", Career:"#9A6B00", Coding:"#6A44C4" };
 var cats = ["All"];
 tools.forEach(function (t) { if (cats.indexOf(t.cat) === -1) cats.push(t.cat); });
 var cat = "All", onlyFree = false;
 var search = document.getElementById("search");
+var root = document.documentElement;
+var themeBtn = document.getElementById("themeBtn");
+
+function colorOf(c) { return palette[c] || "#0B6B5C"; }
+function tint(h, a) { var n = parseInt(h.slice(1), 16); return "rgba(" + (n >> 16 & 255) + "," + (n >> 8 & 255) + "," + (n & 255) + "," + a + ")"; }
+function host(link) { try { return new URL(link).hostname; } catch (e) { return ""; } }
+
+function showTheme() { themeBtn.textContent = root.getAttribute("data-theme") === "dark" ? "Light mode" : "Dark mode"; }
+themeBtn.onclick = function () {
+  var t = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  root.setAttribute("data-theme", t);
+  try { localStorage.setItem("theme", t); } catch (e) {}
+  showTheme();
+};
 
 function drawFilters() {
   var html = cats.map(function (c) {
-    return '<button class="cat" data-cat="' + c + '" aria-pressed="' + (c === cat) + '">' + c + '</button>';
+    return '<button class="cat" style="--c:' + (c === "All" ? "#0B6B5C" : colorOf(c)) + '" data-cat="' + c + '" aria-pressed="' + (c === cat) + '"><i></i>' + c + '</button>';
   }).join("");
-  html += '<button class="cat free" id="freeBtn" aria-pressed="' + onlyFree + '">Free only</button>';
+  html += '<button class="cat free" id="freeBtn" aria-pressed="' + onlyFree + '"><i></i>Free only</button>';
   document.getElementById("filters").innerHTML = html;
   document.querySelectorAll("[data-cat]").forEach(function (b) {
     b.onclick = function () { cat = b.dataset.cat; drawFilters(); render(); };
@@ -113,31 +168,24 @@ function drawFilters() {
   document.getElementById("freeBtn").onclick = function () { onlyFree = !onlyFree; drawFilters(); render(); };
 }
 
-function host(link) {
-  try { return new URL(link).hostname; } catch (e) { return ""; }
-}
-
-function letterBadge(av) {
-  av.style.background = av.dataset.color;
-  av.style.border = "0";
-  av.textContent = av.dataset.letter;
-}
+function letterBadge(av) { av.style.background = av.dataset.color; av.style.border = "0"; av.textContent = av.dataset.letter; }
 
 function render() {
   var q = search.value.toLowerCase().trim();
   var out = tools.filter(function (t) {
-    return (cat === "All" || t.cat === cat) &&
-           (!onlyFree || t.free) &&
+    return (cat === "All" || t.cat === cat) && (!onlyFree || t.free) &&
            (t.name + " " + t.desc + " " + t.cat).toLowerCase().indexOf(q) !== -1;
   });
   document.getElementById("count").textContent = out.length + (out.length === 1 ? " tool" : " tools");
-  document.getElementById("list").innerHTML = out.length ? out.map(function (t) {
-    return '<li class="row">' +
-      '<div class="av" data-color="' + (palette[t.cat] || "#0B6B5C") + '" data-letter="' + t.name[0] + '">' +
+  document.getElementById("list").innerHTML = out.length ? out.map(function (t, i) {
+    var c = colorOf(t.cat);
+    return '<li class="card" style="--c:' + c + ';--t:' + tint(c, 0.11) + ';--i:' + Math.min(i, 10) + '">' +
+      '<div class="head"><div class="av" data-color="' + c + '" data-letter="' + t.name[0] + '">' +
         '<img src="https://www.google.com/s2/favicons?domain=' + host(t.link) + '&sz=128" alt="" loading="lazy"></div>' +
-      '<div><span class="nm">' + t.name + '</span><span class="tag' + (t.free ? '' : ' paid') + '">' + (t.free ? 'Free' : 'Paid') + '</span></div>' +
+      '<div><span class="nm">' + t.name + '</span><span class="tag' + (t.free ? '' : ' paid') + '">' + (t.free ? 'Free' : 'Paid') + '</span>' +
+        '<span class="cn">' + t.cat + '</span></div></div>' +
       '<p class="ds">' + t.desc + '</p>' +
-      '<a class="go" href="' + t.link + '" target="_blank" rel="noopener">Open ' + t.name + '</a></li>';
+      '<a class="go" href="' + t.link + '" target="_blank" rel="noopener">Open ' + t.name + ' &rarr;</a></li>';
   }).join("") : '<li class="empty">No tools match. Try a different word or clear the filters.</li>';
   document.querySelectorAll(".av img").forEach(function (img) {
     img.onerror = function () { letterBadge(img.parentNode); };
@@ -149,6 +197,7 @@ document.querySelectorAll(".tasks button").forEach(function (b) {
   b.onclick = function () { search.value = b.dataset.q; render(); };
 });
 search.addEventListener("input", render);
+showTheme();
 drawFilters();
 render();
 </script>
